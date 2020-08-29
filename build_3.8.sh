@@ -1,11 +1,20 @@
 #!/bin/bash
 
+VERSION=3.8.5
+
+# Optionally set number of make jobs, otherwise use all CPUs.
+NJOBS=$1
+if [ -z "$NJOBS" ]
+then
+    NJOBS=$(nproc)
+fi
+
 mkdir -p usr
 
-wget https://www.python.org/ftp/python/3.8.0/Python-3.8.0.tgz
-tar xzf Python-3.8.0.tgz
-cd Python-3.8.0
+wget https://www.python.org/ftp/python/${VERSION}/Python-${VERSION}.tgz
+tar xzf Python-${VERSION}.tgz
+cd Python-${VERSION}
 
 ./configure --prefix=$(pwd)/../usr
-make -j8
+make ${NJOBS}
 make install
